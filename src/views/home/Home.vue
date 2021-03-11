@@ -3,8 +3,7 @@
     <jheader/>
     <div class="post-area"><post-area-select @postAreaClick="postAreaClick"/></div>
     <div class="posts">
-      <!-- @titleClick="titleClick" -->
-      <post-list :posts="posts.list"  />
+      <post-list :posts="posts.list" @titleClick="titleClick" />
       <!-- 分页 开始 -->
       <div class="pagnation">
         <span @click="jumpPage(1)">首页</span>

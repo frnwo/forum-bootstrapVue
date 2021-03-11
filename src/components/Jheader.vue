@@ -7,7 +7,7 @@
       <b-navbar-nav>
         <b-nav-item v-if="!hasLogin" @click="jumpLogin">登录</b-nav-item>
         <b-nav-item v-if="!hasLogin" @click="jumpRegister">注册</b-nav-item>
-        <b-nav-item v-if="hasLogin"><span class="publishItem">我要发布</span></b-nav-item>
+        <b-nav-item v-if="hasLogin" @click="showModal"><span class="publishItem">我要发布</span></b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <!-- 搜索 -->
@@ -28,6 +28,13 @@
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
+    <b-modal ref="my-modal" hide-footer title="Using Component Methods">
+      <div class="d-block text-center">
+        <h3>Hello From My Modal!</h3>
+      </div>
+      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-button>
+      <b-button class="mt-2" variant="outline-warning" block @click="toggleModal">Toggle Me</b-button>
+    </b-modal>
   </b-navbar>
 </template>
 
@@ -73,6 +80,12 @@ export default {
     //跳转到首页
     jumpHome(){
       this.$router.push("/home")
+    },
+    showModal() {
+        this.$refs['my-modal'].show()
+      },
+    hideModal() {
+      this.$refs['my-modal'].hide()
     }
   },
   computed:{

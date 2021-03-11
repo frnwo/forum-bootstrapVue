@@ -26,7 +26,10 @@ import PostListItem from "./PostListItem.vue";
       }
     },
     methods:{
-
+      titleClick(postId){
+      // console.log(postId)
+      this.$emit("titleClick",postId)
+    }
     },
   }
 </script>

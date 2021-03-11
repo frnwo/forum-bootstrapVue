@@ -5,7 +5,7 @@
       <img class="header-img" :src="postsItem.user.headerUrl" />
       <span class="username">{{ postsItem.user.username }}</span>
     </div>
-    <div class="title">{{ postsItem.post.title }}</div>
+    <div class="title" @click="titleClick(postsItem.post.id)">{{ postsItem.post.title }}</div>
     <div class="comment-count">
       <i class="zi zi_commentdots"></i>{{ postsItem.post.commentCount }}
     </div>
@@ -32,7 +32,12 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+     titleClick(postId){
+      // console.log(postId)
+      this.$emit("titleClick",postId)
+    }
+  },
   filters: {
     calcTime(time) {
       return handleTime(time);
