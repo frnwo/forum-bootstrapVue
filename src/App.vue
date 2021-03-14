@@ -7,10 +7,8 @@
 </template>
 
 <script>
-import Jheader from './components/Jheader.vue';
 export default {
   name: "App",
-  components: {Jheader},
 };
 </script>
 

@@ -27,7 +27,7 @@
           <template v-slot:button-content>
             <em>{{ username }}</em>
           </template>
-          <b-dropdown-item href="#">消息</b-dropdown-item>
+          <b-dropdown-item @click="jumpMessage">消息</b-dropdown-item>
           <b-dropdown-item href="#">个人首页</b-dropdown-item>
           <b-dropdown-item @click="jumpAccount">账号设置</b-dropdown-item>
           <b-dropdown-item @click="logout">退出</b-dropdown-item>
@@ -69,11 +69,16 @@ export default {
       logout().then((res) => {
         //删除的vuex和localStorage的登录信息
           this.$store.commit("login", false);
+          this.$store.commit("username",undefined);
           localStorage.removeItem("isLogin");
           localStorage.removeItem("username");
           //去首页
           this.$router.push("/login")
       });
+    },
+    //私信
+    jumpMessage(){
+      this.$router.push("/message");
     },
     //账号设置
     jumpAccount() {
@@ -85,6 +90,7 @@ export default {
     jumpHome() {
       this.$router.push("/home");
     },
+    //显示发布
     showModal() {
       this.$refs["my-publish"].showModal();
     },
@@ -94,7 +100,7 @@ export default {
       return this.$store.state.isLogin || localStorage.getItem("isLogin");
     },
     username() {
-      return localStorage.getItem("username");
+      return this.$store.state.username || localStorage.getItem("username");
     },
   },
 };

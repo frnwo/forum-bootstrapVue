@@ -9,7 +9,7 @@
     >
     <!-- 登录成功提示 -->
     <b-alert variant="success" show v-show="success">登录成功</b-alert>
-    <!-- 登录失败提示 -->
+    <!-- 失败提示 -->
     <b-alert variant="danger" show v-show="failed">{{ errMsg }}</b-alert>
     <!-- 用户名 -->
     <b-form-group id="input-group-1" label="用户名:" label-for="input-1">
@@ -136,6 +136,7 @@ export default {
             this.success = true;
             // 登录成功后把用户信息存进localstorage
             this.$store.commit("login", true);
+            this.$store.commit("username",data.user.username)
             localStorage.setItem("isLogin", "1");
             localStorage.setItem("username", data.user.username);
             //跳转到首页

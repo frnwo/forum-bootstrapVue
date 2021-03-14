@@ -26,6 +26,7 @@ export function request(config) {
       localStorage.removeItem("isLogin");
       localStorage.removeItem("username");
       store.commit("login", false);
+      store.commit("username",undefined)
       window.location.href="http://localhost:8080/login"
     }
     return res; //记住拦截后要返回，否则后面代码无法执行

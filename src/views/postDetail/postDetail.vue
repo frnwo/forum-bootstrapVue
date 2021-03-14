@@ -4,6 +4,7 @@
     <jheader />
     <!-- 楼主层 -->
     <div class="louzhu" v-if="Object.keys(post).length != 0">
+      <strong class="tag">楼主</strong>
       <!-- 楼主信息 -->
       <div class="left">
         <div class="post_people">
@@ -304,8 +305,16 @@ export default {
   margin-top: 100px;
 }
 .louzhu {
+  position: relative;
   display: flex;
   justify-content: space-between;
+}
+.louzhu .tag{
+  position: absolute;
+  left: 10px;
+  top:10px;
+  font-size: 18px;
+  color: #FC427B;
 }
 .louzhu .left {
   display: flex;
@@ -331,6 +340,7 @@ export default {
 .louzhu .right .post_title {
   margin-top: 20px;
   max-height: 100px;
+  text-align: center;
 }
 .louzhu .right .post_time {
   display: flex;

@@ -4,7 +4,7 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 const Home = () => import('views/home/Home')
-// const Message = () => import('views/message/Message')
+const Message = () => import('views/message/Message')
 const Register = ()=> import('views/login/Register')
 const Login = ()=> import('views/login/Login')
 const Account = ()=> import('components/Account')
@@ -15,10 +15,12 @@ const routes = [
     path:'',
     redirect:'/home',
   },
-  // {
-  //   path:'/message',
-  //   component:Message,
-  // },
+  {
+    path:'/message',
+    component:Message,
+    meta: {login_required: true}
+
+  },
   {
     path:'/home',
     component:Home,
