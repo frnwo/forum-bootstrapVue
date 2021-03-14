@@ -1,4 +1,6 @@
 import axios from 'axios'
+import store from '@/store'
+
 // 携带cookie
 axios.defaults.withCredentials=true;
 const instance = axios.create({
@@ -22,6 +24,8 @@ export function request(config) {
     //token过期
     if(res.data.tokenErr=="1"){
       localStorage.removeItem("isLogin");
+      localStorage.removeItem("username");
+      store.commit("login", false);
       window.location.href="http://localhost:8080/login"
     }
     return res; //记住拦截后要返回，否则后面代码无法执行

@@ -7,9 +7,9 @@
       ><b-spinner variant="primary" label="Spinning"></b-spinner
       >&nbsp;&nbsp;&nbsp;登录中</b-alert
     >
-    <!-- 注册成功提示 -->
+    <!-- 登录成功提示 -->
     <b-alert variant="success" show v-show="success">登录成功</b-alert>
-    <!-- 注册失败提示 -->
+    <!-- 登录失败提示 -->
     <b-alert variant="danger" show v-show="failed">{{ errMsg }}</b-alert>
     <!-- 用户名 -->
     <b-form-group id="input-group-1" label="用户名:" label-for="input-1">

@@ -7,7 +7,7 @@ const Home = () => import('views/home/Home')
 // const Message = () => import('views/message/Message')
 const Register = ()=> import('views/login/Register')
 const Login = ()=> import('views/login/Login')
-const Account = ()=> import('views/account/Account')
+const Account = ()=> import('components/Account')
 const PostDetail = ()=> import('views/postDetail/postDetail')
 
 const routes = [
@@ -44,7 +44,6 @@ const routes = [
   {
     path:'/postDetail/:postId',
     component:PostDetail,
-    meta: {login_required: true}
   }
   // {
   //   // path:'/detail/:iid',

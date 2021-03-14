@@ -51,7 +51,7 @@ export default {
   methods: {
     getDiscussPosts(current, limit, type) {
       getDiscussPosts(current, limit, type).then((res) => {
-        console.log(res);
+        // console.log(res);
         const pageInfo = res.data.pop();
         //总共页数
         this.posts.totalPage = pageInfo.totalPage;

@@ -14,13 +14,18 @@
       </div>
       <!-- 帖子信息 -->
       <div class="right">
-        <div class="post_title">{{ post.title }}</div>
+        <div class="post_title">
+          <h3>{{ post.title }}</h3>
+        </div>
         <div class="post_time">
-          评论{{ post.commentCount }} 发布于:{{ post.createTime | calcTime }}
+          评论<span style="color: #b33771; margin-right: 10px">{{
+            post.commentCount
+          }}</span>
+          发布于:{{ post.createTime | calcTime }}
         </div>
         <div class="post_content">
           <div class="content">
-            {{ post.content }}
+            <h4>{{ post.content }}</h4>
           </div>
         </div>
         <div class="pics">
@@ -46,10 +51,14 @@
           <div class="content">{{ c.comment.content }}</div>
         </div>
         <div class="comment_time">
-          回复{{ c.replyCount }} 评论于:{{ c.comment.createTime | calcTime }}
+          回复<span style="color: #b33771; margin-right: 10px">{{
+            c.replyCount
+          }}</span>
+          评论于:{{ c.comment.createTime | calcTime }}
         </div>
         <!-- 二级评论 -->
         <div
+          style="margin-top: 10px"
           class="second_comment"
           v-for="(reply, index) in c.replies"
           :key="index"
@@ -81,35 +90,39 @@
         </div>
         <!-- 没有指定用户的二级评论 -->
         <div class="replyNoTarget">
-          <input type="text" placeholder="回复该评论" /><button
+          <b-form-input placeholder="回复该评论"></b-form-input>
+          <b-button @click="commentToCommentNoTarget($event, c.comment.id)"
+            >发送</b-button
+          >
+          <!-- <input type="text" placeholder="回复该评论" /><button
             @click="commentToCommentNoTarget($event, c.comment.id)"
           >
             回复
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
     <!-- 二级评论给特定用户 -->
     <div ref="replyToTarget" class="replyInput" v-show="showReply">
-      <input type="text" v-model="cTcTargetContent" /><button
-        @click="commentToCommentWithTarget"
-      >
-        回复
-      </button>
+      <b-form-input v-model="cTcTargetContent"></b-form-input>
+      <b-button @click="commentToCommentWithTarget">发送</b-button>
     </div>
     <!-- 给帖子的评论 -->
-    <div class="comment_text">
-      <textarea
-        rows="5"
-        cols="50"
-        v-model="commentToPostContent"
-        placeholder="发表您的观点"
-      ></textarea>
-      <span><button @click="commentToPost">回帖</button></span>
-    </div>
-    <div>
-      <button @click="prePage">上一页</button
-      ><button @click="nextPage">下一页</button>
+    <b-row class="commentToPost">
+      <b-col sm="10">
+        <b-form-textarea
+          size="lg"
+          placeholder="发表您的观点"
+          v-model="commentToPostContent"
+        ></b-form-textarea>
+      </b-col>
+      <b-col sm="2">
+        <b-button variant="success" @click="commentToPost">回帖</b-button>
+      </b-col>
+    </b-row>
+    <div class="pagnation">
+      <b-button variant="outline-primary"  @click="prePage">上一页</b-button>
+      <b-button variant="outline-primary"  @click="nextPage">下一页</b-button>
     </div>
   </div>
 </template>
@@ -302,14 +315,18 @@ export default {
   padding-top: 20px;
   padding-bottom: 20px;
   width: 20%;
-  background: pink;
+  background: #63cdda;
+  border-radius: 10px;
 }
 .louzhu .left div {
   padding-top: 20px;
 }
 .louzhu .right {
   width: 75%;
-  background: pink;
+  padding-left: 40px;
+  padding-right: 20px;
+  background: #63cdda;
+  border-radius: 10px;
 }
 .louzhu .right .post_title {
   margin-top: 20px;
@@ -353,8 +370,8 @@ export default {
   flex-wrap: wrap;
 }
 .louzhu .right .pics img {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
 }
 .post_headerUrl img {
   width: 48px;
@@ -380,15 +397,18 @@ export default {
   padding-top: 20px;
   padding-bottom: 20px;
   width: 20%;
-  background: goldenrod;
+  background: #9aecdb;
+  border-radius: 10px;
 }
 .comment .left div {
   padding-top: 20px;
 }
 .comment .right {
   width: 75%;
-
-  background: goldenrod;
+  padding-left: 40px;
+  padding-right: 20px;
+  background: #9aecdb;
+  border-radius: 10px;
 }
 .comment .right .comment_title {
   margin-top: 20px;
@@ -427,10 +447,11 @@ export default {
   vertical-align: bottom;
 }
 .second_comment {
-  background: rgb(127, 202, 202);
+  background: #cad3c8;
+  border-radius: 10px;
+  padding: 0 10px;
 }
 .second_comment .content {
-  padding: 10px 0;
 }
 .second_comment .time {
   position: relative;
@@ -444,10 +465,40 @@ export default {
   width: 36px;
   height: 36px;
 }
+/* 二级评论指向某人 开始 */
+.replyInput {
+  display: flex;
+}
+.replyInput input {
+  width: 60%;
+  margin-right: 10px;
+}
+/* 二级评论指向某人 结束 */
+
+/* 二级评论不指向任何人 开始 */
+
 .replyNoTarget {
+  display: flex;
   margin-top: 40px;
 }
+.replyNoTarget input {
+  width: 60%;
+  margin-right: 10px;
+}
+/* 二级评论不指向任何人 结束 */
+
 .post_time {
   border-bottom: 1px solid rgb(143, 140, 140);
+}
+.commentToPost{
+  margin-top: 20px;
+}
+.pagnation{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.pagnation>button{
+  margin-left: 10px;
 }
 </style>
