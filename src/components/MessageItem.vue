@@ -5,7 +5,7 @@
       <img :src="img" alt="">
       <div>{{username}}</div>
     </div>
-    <div class="middle">
+    <div class="middle" @click="messageDetail">
       <img src="~assets/img/new.png"/>
       {{content}}
     </div>
@@ -49,10 +49,15 @@ import {handleTime} from "common/utils.js";
       },
       count(){
         return this.message.letterCount;
+      },
+      conversationId(){
+        return this.message.conversation.conversationId
       }
     },
     methods:{
-
+      messageDetail(){
+        this.$router.push("/messageDetail/"+this.conversationId);
+      }
     },
     filters:{
       handleTime(time){

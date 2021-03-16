@@ -1,6 +1,6 @@
 <template>
   <div id="appxx">
-    <keep-alive exclude="Register,Login,Jheader,Account,PostDetail">
+    <keep-alive exclude="Register,Login,Jheader,Account,PostDetail,MessageDetail">
       <router-view />
     </keep-alive>
   </div>

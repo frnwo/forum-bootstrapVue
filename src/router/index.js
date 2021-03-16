@@ -8,6 +8,8 @@ const Message = () => import('views/message/Message')
 const Register = ()=> import('views/login/Register')
 const Login = ()=> import('views/login/Login')
 const Account = ()=> import('components/Account')
+const MessageDetail = ()=> import('components/MessageDetail')
+
 const PostDetail = ()=> import('views/postDetail/postDetail')
 
 const routes = [
@@ -19,7 +21,11 @@ const routes = [
     path:'/message',
     component:Message,
     meta: {login_required: true}
-
+  },
+  {
+    path:'/messageDetail/:conversationId',
+    component:MessageDetail,
+    meta: {login_required: true}
   },
   {
     path:'/home',

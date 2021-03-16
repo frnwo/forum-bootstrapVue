@@ -9,3 +9,13 @@ export function getMessage(current,limit) {
     }
   })
 }
+
+export function getMessageDetail(current,conversationId) {
+  console.log("current",current)
+  return request({
+    url:"/letter/detail/"+conversationId,
+    params:{
+      current:current
+    }
+  })
+}

@@ -42,7 +42,7 @@ import Jheader from 'components/Jheader.vue';
       getMessage(current,limit){
         getMessage(current,limit).then(res=>{
           const data = res.data;
-          console.log(data)
+          // console.log(data)
           this.message.conversations = data.conversations;
           this.message.unreadCount = data.unreadCount;
           this.message.page = data.page;

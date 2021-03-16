@@ -12,7 +12,7 @@
     <b-alert variant="danger" show v-show="failed">{{ errMsg }}</b-alert>
     <!-- 更新头像 -->
     <div class="photo">
-      <b-form-file accept=".jpg, .png, .gif" v-model="photo"></b-form-file>
+      <b-form-file accept=".jpg, .png, .gif" v-model="photo" placeholder="选择图片"></b-form-file>
       <b-button variant="danger" @click="updatePhoto">确认更新</b-button>
     </div>
 
