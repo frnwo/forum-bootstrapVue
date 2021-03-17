@@ -114,6 +114,7 @@ export default {
       this.tip = "";
     },
     close(){
+      console.log("call close")
       this.setNull()
     }
   },

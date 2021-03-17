@@ -2,6 +2,9 @@
   <div id="postDetail">
     <!-- 导航头部 -->
     <jheader />
+    <!-- 发私信 -->
+    <send-message ref="send-message" :toName="toName" />
+
     <!-- 楼主层 -->
     <div class="louzhu" v-if="Object.keys(post).length != 0">
       <strong class="tag">楼主</strong>
@@ -10,8 +13,14 @@
         <div class="post_people">
           {{ postUser.username }}
         </div>
-        <div class="post_headerUrl"><img :src="postUser.headerUrl" /></div>
-        <div><button>关注Ta</button><button>私信</button></div>
+        <div class="post_headerUrl" @click="$router.push('/profile/'+postUser.id)"><img :src="postUser.headerUrl" /></div>
+
+        <div>
+         
+          <b-button variant="light" @click="showSend(postUser.username)"
+            >私信</b-button
+          >
+        </div>
       </div>
       <!-- 帖子信息 -->
       <div class="right">
@@ -19,6 +28,15 @@
           <h3>{{ post.title }}</h3>
         </div>
         <div class="post_time">
+          <div class="likeStatus" @click="likePost(1,post.id,post.userId)">
+            <span v-if="like.likeStatus != 0">
+              <img src="~assets/img/like.png" />
+            </span>
+            <span v-else>
+              <img src="~assets/img/unlike.png" />
+            </span>
+          </div>
+          <div class="likeCount">{{ like.likeCount == 0 ? "" : like.likeCount }}</div>
           评论<span style="color: #b33771; margin-right: 10px">{{
             post.commentCount
           }}</span>
@@ -43,8 +61,13 @@
         <div class="comment_people">
           {{ c.user.username }}
         </div>
-        <div class="comment_headerUrl"><img :src="c.user.headerUrl" /></div>
-        <div><button>关注Ta</button><button>私信</button></div>
+        <div class="comment_headerUrl" @click="$router.push('/profile/'+c.user.id)"><img :src="c.user.headerUrl" /></div>
+        <div>
+         
+          <b-button variant="light" @click="showSend(c.user.username)"
+            >私信</b-button
+          >
+        </div>
       </div>
       <!-- 评论内容 -->
       <div class="right">
@@ -52,6 +75,17 @@
           <div class="content">{{ c.comment.content }}</div>
         </div>
         <div class="comment_time">
+
+          <div class="likeStatus" @click="likeComment(2,c.comment.id,c.comment.userId,index)">
+            <span v-if="c.likeStatus != 0">
+              <img src="~assets/img/like.png" />
+            </span>
+            <span v-else>
+              <img src="~assets/img/unlike.png" />
+            </span>
+          </div>
+          <div class="likeCount">{{ c.likeCount == 0 ? "" : c.likeCount }}</div>
+
           回复<span style="color: #b33771; margin-right: 10px">{{
             c.replyCount
           }}</span>
@@ -75,7 +109,7 @@
           <div class="time">
             <span>{{ reply.reply.createTime | calcTime }}</span>
             <span class="time_right"
-              >赞(1)|<span
+              ><span
                 @click="
                   show(
                     $event,
@@ -122,20 +156,22 @@
       </b-col>
     </b-row>
     <div class="pagnation">
-      <b-button variant="outline-primary"  @click="prePage">上一页</b-button>
-      <b-button variant="outline-primary"  @click="nextPage">下一页</b-button>
+      <b-button variant="outline-primary" @click="prePage">上一页</b-button>
+      <b-button variant="outline-primary" @click="nextPage">下一页</b-button>
     </div>
   </div>
 </template>
 
 <script>
-import { getPostDetail, comment } from "network/detail";
+import { getPostDetail, comment,like } from "network/detail";
+import SendMessage from "components/SendMessage";
 
 import Jheader from "components/Jheader.vue";
 export default {
   name: "PostDetail",
   components: {
     Jheader,
+    SendMessage,
   },
   data() {
     return {
@@ -150,6 +186,11 @@ export default {
       toTarget: "",
       commentId: "",
       cTcTargetContent: "",
+      toName: "",
+      like: {
+        likeStatus: 0,
+        likeCount: 0,
+      },
     };
   },
   created() {
@@ -157,6 +198,25 @@ export default {
     this.getPostDetail(this.postId, this.page + 1);
   },
   methods: {
+    // 给帖子点赞
+    likePost(entityType, entityId, entityUserId){
+      like(entityType,entityId,entityUserId).then(res=>{
+        this.like.likeCount = res.data.likeCount
+        this.like.likeStatus = res.data.likeStatus
+      })
+    },
+    //给评论点赞
+    likeComment(entityType,entityId, entityUserId,index){
+      like(entityType,entityId,entityUserId).then(res=>{
+        this.comments[index].likeCount = res.data.likeCount
+        this.comments[index].likeStatus = res.data.likeStatus
+      })
+    },
+    //显示发送私信
+    showSend(toName) {
+      this.toName = toName;
+      this.$refs["send-message"].showModal();
+    },
     nextPage() {
       this.getPostDetail(this.postId, this.page + 1);
       document.documentElement.scrollTop = 0;
@@ -187,6 +247,8 @@ export default {
         this.comments = res.data.comments;
         this.lastPage = res.data.totalPage;
         this.page = page;
+        this.like.likeStatus = res.data.likeStatus;
+        this.like.likeCount = res.data.likeCount;
       });
     },
     show(e, toUser, toTarget, commentId) {
@@ -309,12 +371,12 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.louzhu .tag{
+.louzhu .tag {
   position: absolute;
   left: 10px;
-  top:10px;
+  top: 10px;
   font-size: 18px;
-  color: #FC427B;
+  color: #fc427b;
 }
 .louzhu .left {
   display: flex;
@@ -329,6 +391,9 @@ export default {
 }
 .louzhu .left div {
   padding-top: 20px;
+}
+.louzhu .left img{
+  border-radius: 50%;
 }
 .louzhu .right {
   width: 75%;
@@ -357,6 +422,7 @@ export default {
   width: 36px;
   height: 36px;
   margin-right: 10px;
+
 }
 .louzhu .right .post_content .content {
   flex-grow: 1;
@@ -402,13 +468,16 @@ export default {
 .comment .left {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   padding-top: 20px;
   padding-bottom: 20px;
   width: 20%;
   background: #9aecdb;
   border-radius: 10px;
+}
+.comment .left img{
+  border-radius: 50%;
 }
 .comment .left div {
   padding-top: 20px;
@@ -472,8 +541,8 @@ export default {
   right: 0;
 }
 .comment_headerUrl img {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
 }
 /* 二级评论指向某人 开始 */
 .replyInput {
@@ -500,15 +569,19 @@ export default {
 .post_time {
   border-bottom: 1px solid rgb(143, 140, 140);
 }
-.commentToPost{
+.commentToPost {
   margin-top: 20px;
 }
-.pagnation{
+.pagnation {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
-.pagnation>button{
+.pagnation > button {
   margin-left: 10px;
+}
+.likeCount{
+  margin-right: 10px;
+  width: 20px;
 }
 </style>

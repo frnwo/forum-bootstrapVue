@@ -2,6 +2,9 @@
 
   <div id="message">
     <jheader/>
+    <b-button variant="info" @click="showSend" style="float:right">发私信</b-button>
+    <p class="text-info" style="padding-bottom:20px">我的消息</p>
+    <send-message ref="send-message"/>
     <div v-for="(conversation,index) in message.conversations" :key="index">
       <message-item :message="conversation"/>
     </div>
@@ -13,18 +16,21 @@
         <span @click="jumpPage(message.page.to)">末页</span>
       </div>
       <!-- 分页结束 -->
+
   </div>
 </template>
 
 <script>
 import {getMessage} from "network/message.js";
 import MessageItem from 'components/MessageItem.vue';
+import SendMessage from 'components/SendMessage.vue';
 import Jheader from 'components/Jheader.vue';
 
   export default {
   components: { 
     MessageItem,
-    Jheader 
+    Jheader,
+    SendMessage,
   },
     name:"Message",
     data() {
@@ -39,6 +45,10 @@ import Jheader from 'components/Jheader.vue';
       }
     },
     methods:{
+      //显示发送私信
+      showSend(){
+        this.$refs["send-message"].showModal();
+      },
       getMessage(current,limit){
         getMessage(current,limit).then(res=>{
           const data = res.data;

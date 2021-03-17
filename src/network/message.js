@@ -11,11 +11,20 @@ export function getMessage(current,limit) {
 }
 
 export function getMessageDetail(current,conversationId) {
-  console.log("current",current)
   return request({
     url:"/letter/detail/"+conversationId,
     params:{
       current:current
     }
+  })
+}
+export function sendMessage(toName,content) {
+  let fm = new FormData();
+  fm.append("toName",toName);
+  fm.append("content",content);
+  return request({
+    url:"/letter/send",
+    method:"post",
+    data:fm,
   })
 }

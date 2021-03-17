@@ -5,8 +5,8 @@
       <img :src="item.fromUser.headerUrl" alt="">
       <div>{{item.fromUser.username}}</div>
     </div>
-    <div class="content">
-      <span>{{item.message.content}}</span>
+    <div>
+      <span class="content">{{item.message.content}}</span>
       <div class="time">{{item.message.createTime|calcTime}}</div>
     </div>
     
@@ -49,10 +49,14 @@
 <style scoped>
 /* @import url(); 引入css类 */
 .messageDetailItem{
+  width: 85%;
   position: relative;
   display: flex;
+  align-items: center;
   height: 100px;
-  border-bottom: 1px solid red;
+  background: #f7f1e3;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 .img{
   display: flex;
@@ -62,20 +66,27 @@
   color: #3ae374;
   font-weight: bold;
 }
+.img img{
+  width: 48px;
+  border-radius: 50%;
+}
 .content{
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
+  width:400px;
+  left: 50%;
+  top:20px;
+  margin-left: -200px;
   color:#4b4b4b;
   font-size: 24px;
 }
-.content .time{
+ .time{
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  margin-left: -150px;
   font-size: 16px;
-  align-self: flex-end;
+  width:100px;
   color:#ff3838;
-  margin-right: 120px;
 }
 .messageDetailItem .right{
   position: absolute;

@@ -25,8 +25,11 @@ export function request(config) {
     if(res.data.tokenErr=="1"){
       localStorage.removeItem("isLogin");
       localStorage.removeItem("username");
+      localStorage.removeItem("userId");
       store.commit("login", false);
       store.commit("username",undefined)
+      store.commit("userId",undefined)
+
       window.location.href="http://localhost:8080/login"
     }
     return res; //记住拦截后要返回，否则后面代码无法执行

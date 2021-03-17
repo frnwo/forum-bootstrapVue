@@ -2,9 +2,14 @@
 <template>
   <div id="messageDetail">
     <jheader/>
-    <div>与<span style="color:#17c0eb;font-weight:bold">{{ target }}</span>的私信</div>
+    <div class="top">
+      <div>与<span style="color:#17c0eb;font-weight:bold">{{ target }}</span>的私信</div>
+      <b-button variant="info" @click="showSend">发私信</b-button>
+      <send-message  ref="send-message" :toName = "target"/>
+    </div>
+    
     <div v-for="(m, index) in messages" :key="index">
-      <message-detail-item :item="m" />
+      <message-detail-item :item="m" :class="{fr:m.fromUser.username==loginName}"/>
     </div>
     <!-- 分页 开始 -->
       <div class="pagnation">
@@ -20,6 +25,7 @@
 <script>
 import MessageDetailItem from "components/MessageDetailItem.vue";
 import Jheader from './Jheader.vue';
+import SendMessage from "./SendMessage";
 
 import { getMessageDetail } from "network/message.js";
 
@@ -28,6 +34,7 @@ export default {
   components: {
     MessageDetailItem,
     Jheader,
+    SendMessage,
   },
   data() {
     return {
@@ -36,9 +43,19 @@ export default {
       messages: [],
       target: "",
       page:{},
+      
     };
   },
+  computed:{
+    loginName(){
+      return localStorage.getItem("username")
+    }
+  },
   methods: {
+    //显示发送私信
+      showSend(){
+        this.$refs["send-message"].showModal();
+      },
     getMessageDetail(current) {
       getMessageDetail(current, this.conversationId).then((res) => {
         console.log(res);
@@ -81,7 +98,6 @@ export default {
   justify-content: center;
   margin: 0 auto;
   margin-top: 40px;
-
 }
 .pagnation span {
   display: inline-block;
@@ -98,4 +114,12 @@ export default {
 }
 
 /* 分页 结束 */
+.top{
+  display: flex;
+  justify-content: space-between;
+}
+.fr{
+  margin-left: 100px;
+  background: #d1ccc0;
+}
 </style>

@@ -20,6 +20,17 @@ export function comment(entityType,entityId,content,targetId) {
     data:fm,
   })
 }
+export function like(entityType, entityId, entityUserId) {
+  let fm = new FormData()
+  fm.append("entityType",entityType)
+  fm.append("entityId",entityId)
+  fm.append("entityUserId",entityUserId)
+  return request({
+    url:"/like",
+    method:"post",
+    data:fm,
+  })
+}
 
 
 // export function getDeatail(iid){

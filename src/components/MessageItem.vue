@@ -73,14 +73,19 @@ import {handleTime} from "common/utils.js";
   border-bottom: 1px solid red;
   height: 102px;
   padding: 10px 0;
- 
+ background: rgba(209, 216, 224,.4);
 }
 .left{
-  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  width: 100px;
   margin-right: 100px;
   color:#58B19F;
 }
-.left .img{
+.left img{
   width:48px;
   height: 48px;
   border-radius: 50%;

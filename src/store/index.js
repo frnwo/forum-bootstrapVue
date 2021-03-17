@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     //登录的用户信息
     isLogin:false,
-    username:undefined
+    username:undefined,
+    userId:undefined,
   },
   mutations: {
     //this.$store.commit('login',数据)
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     username(state,payload){
       state.username = payload;
+    },
+    userId(state,payload){
+      state.userId = payload
     }
   
   },

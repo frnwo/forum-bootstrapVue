@@ -1,6 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 Vue.use(VueRouter);
 
 const Home = () => import('views/home/Home')
@@ -9,6 +14,10 @@ const Register = ()=> import('views/login/Register')
 const Login = ()=> import('views/login/Login')
 const Account = ()=> import('components/Account')
 const MessageDetail = ()=> import('components/MessageDetail')
+const Search = ()=> import('components/Search')
+
+const Profile = () => import('views/profile/Profile')
+
 
 const PostDetail = ()=> import('views/postDetail/postDetail')
 
@@ -31,11 +40,10 @@ const routes = [
     path:'/home',
     component:Home,
   },
-
-  // {
-  //   path:'/profile',
-  //   component:Profile,
-  // },
+  {
+    path:'/profile/:userId',
+    component:Profile,
+  },
   {
     path:'/register',
     component:Register,
@@ -52,12 +60,11 @@ const routes = [
   {
     path:'/postDetail/:postId',
     component:PostDetail,
+  },
+  {
+    path:'/search',
+    component:Search,
   }
-  // {
-  //   // path:'/detail/:iid',
-  //   path:'/detail',
-  //   component:Detail,
-  // }
 ]
 const router = new VueRouter({
   mode: 'history',

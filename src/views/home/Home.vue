@@ -46,6 +46,7 @@ export default {
     };
   },
   created() {
+    console.log("Hhh")
     this.getDiscussPosts(1, 20, this.type);
   },
   methods: {
