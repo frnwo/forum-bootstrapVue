@@ -78,6 +78,7 @@ export default {
           localStorage.removeItem("isLogin");
           localStorage.removeItem("username");
           localStorage.removeItem("userId");
+          localStorage.removeItem("userType");
           //去首页
           this.$router.push("/login")
       });

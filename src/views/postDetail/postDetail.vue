@@ -129,11 +129,6 @@
           <b-button @click="commentToCommentNoTarget($event, c.comment.id)"
             >发送</b-button
           >
-          <!-- <input type="text" placeholder="回复该评论" /><button
-            @click="commentToCommentNoTarget($event, c.comment.id)"
-          >
-            回复
-          </button> -->
         </div>
       </div>
     </div>
@@ -239,7 +234,7 @@ export default {
         return;
       }
       getPostDetail(postId, page).then((res) => {
-        console.log(res);
+        // console.log(res);
         this.post = res.data.post;
         this.postUser = res.data.user;
         // this.comments = [];

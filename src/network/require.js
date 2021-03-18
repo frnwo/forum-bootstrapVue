@@ -26,6 +26,8 @@ export function request(config) {
       localStorage.removeItem("isLogin");
       localStorage.removeItem("username");
       localStorage.removeItem("userId");
+      localStorage.removeItem("userType");
+
       store.commit("login", false);
       store.commit("username",undefined)
       store.commit("userId",undefined)

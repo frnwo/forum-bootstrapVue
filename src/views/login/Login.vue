@@ -138,10 +138,11 @@ export default {
             this.$store.commit("login", true);
             this.$store.commit("username",data.user.username)
             this.$store.commit("userId",data.user.id)
-
+            
             localStorage.setItem("isLogin", "1");
             localStorage.setItem("username", data.user.username);
             localStorage.setItem("userId", data.user.id);
+            localStorage.setItem("userType",data.user.type)
 
             //跳转到首页
             this.$router.push({

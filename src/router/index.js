@@ -15,10 +15,8 @@ const Login = ()=> import('views/login/Login')
 const Account = ()=> import('components/Account')
 const MessageDetail = ()=> import('components/MessageDetail')
 const Search = ()=> import('components/Search')
-
 const Profile = () => import('views/profile/Profile')
-
-
+const AdminHome = () => import("views/admin/AdminHome")
 const PostDetail = ()=> import('views/postDetail/postDetail')
 
 const routes = [
@@ -64,6 +62,19 @@ const routes = [
   {
     path:'/search',
     component:Search,
+  },
+  {
+    path:"/admin/home",
+    component:AdminHome,
+    meta: {login_required: true},
+    beforeEnter: (to, from, next) => {
+      let isSignin = localStorage.getItem("userType")=="1";
+      if(!isSignin){
+        next('/login');
+      }else{
+        next();
+      }
+    }
   }
 ]
 const router = new VueRouter({
