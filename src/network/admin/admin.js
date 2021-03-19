@@ -48,3 +48,16 @@ export function del(id,status) {
     data:fm
   })
 }
+
+//更新轮播图
+export function updatePhoto(num,file) {
+  let fm = new FormData();
+  fm.append("num",num)
+  fm.append("image",file);
+  return request({
+    method:"post",
+    url:"/admin/uploadCarousel",
+    data:fm,
+    headers:{"Content-Type":"multipart/form-data"}
+  })
+}

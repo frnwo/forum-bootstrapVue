@@ -69,9 +69,28 @@
             <!-- 帖子查询结果结束 -->
           </b-tab>
           <b-tab title="轮播图管理">
-            <b-card-text>Tab contents 3
-              </b-card-text>
-           </b-tab>
+             <!-- 正在修改提示 -->
+            <b-alert show v-show="isLoading"
+              ><b-spinner variant="primary" label="Spinning"></b-spinner
+              >&nbsp;&nbsp;&nbsp;上传中</b-alert
+            >
+            <!-- 上传成功提示 -->
+            <b-alert variant="success" show v-show="success">上传成功</b-alert>
+            <!-- 上传失败提示 -->
+            <b-alert variant="danger" show v-show="failed">{{ errMsg }}</b-alert>
+            <b-row>
+            更新第
+            <b-form-radio v-model="num" name="num" value="1">1</b-form-radio>
+            <b-form-radio v-model="num" name="num" value="2">2</b-form-radio>
+            <b-form-radio v-model="num" name="num" value="3">3</b-form-radio>张轮播图</b-row>
+            <div class="photo">
+              <b-form-file accept=".jpg, .png, .gif" v-model="photo" placeholder="选择图片"></b-form-file>
+              <b-button variant="danger" @click="updatePhoto">确认更新</b-button>
+            </div>  
+          </b-tab>
+          <b-tab title="论坛">
+            <router-link to="/home">进入论坛</router-link>
+          </b-tab>
         </b-tabs>
       </b-card>
     </div>
@@ -80,7 +99,7 @@
 
 <script>
 import AdminNavBar from "./AdminNavBar.vue";
-import {searchUser,block,searchPost,top,del} from "network/admin/admin.js"
+import {searchUser,block,searchPost,top,del,updatePhoto} from "network/admin/admin.js"
 export default {
   components: { AdminNavBar },
   name: "AdminHome",
@@ -91,9 +110,42 @@ export default {
       posts:[],
       searchType:"",
       sp:"",
+
+      photo: null,
+      isLoading: false,
+      success: false,
+      failed: false,
+      errMsg: "",
+      num:undefined
     };
   },
   methods: {
+    //修改图片
+    updatePhoto() {
+      this.failed = false;
+      this.errMsg = "";
+      if(this.num == undefined){
+        this.failed = true;
+        this.errMsg = "我不知道您要更新第几张图片,麻烦请选择"
+      }else if(this.photo == null){
+        this.failed = true;
+        this.errMsg = "您没有选择图片"
+      }else{
+        this.isLoading = true
+        updatePhoto(parseInt(this.num),this.photo).then((res) => {
+          this.isLoading = false
+          if (res.data.status == "ok") {
+            this.success = true
+            setTimeout(()=>{
+              this.success = false
+            },1000)
+          }else{
+            this.failed = true;
+            this.errMsg = res.data.err
+          }
+        })
+      }
+    },
     searchUser(){
       let str = this.username.replace(/(^\s*)|(\s*$)/g, "");
       if(str!=""){

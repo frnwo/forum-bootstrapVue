@@ -1,7 +1,7 @@
 <template>
   <div class="jh-form">
     <jheader/>
-
+    <div style="text-align:center;font-size:36px"><b class="text-info">登录</b></div>
     <!-- 正在注册提示 -->
     <b-alert show v-show="isLoading"
       ><b-spinner variant="primary" label="Spinning"></b-spinner

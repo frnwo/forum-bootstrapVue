@@ -28,3 +28,8 @@ export function sendMessage(toName,content) {
     data:fm,
   })
 }
+export function getNotice(topic) {
+  return request({
+    url:"/notice/"+topic,
+  })
+}

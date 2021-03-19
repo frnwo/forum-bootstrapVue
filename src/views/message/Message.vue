@@ -1,27 +1,42 @@
 <template>
-
   <div id="message">
     <jheader/>
-    <b-button variant="info" @click="showSend" style="float:right">发私信</b-button>
-    <p class="text-info" style="padding-bottom:20px">我的消息</p>
-    <send-message ref="send-message"/>
-    <div v-for="(conversation,index) in message.conversations" :key="index">
-      <message-item :message="conversation"/>
-    </div>
-    <!-- 分页 开始 -->
-      <div class="pagnation">
-        <span @click="jumpPage(1)">首页</span>
-        <span @click="jumpPage(message.current - 1)">上页</span>
-        <span @click="jumpPage(message.current + 1)">下页</span>
-        <span @click="jumpPage(message.page.to)">末页</span>
-      </div>
-      <!-- 分页结束 -->
-
-  </div>
+    <b-tabs content-class="mt-3">
+      <b-tab title="私信" active>
+        <b-button variant="info" @click="showSend" >发私信</b-button>
+        <send-message ref="send-message"/>
+        <div v-for="(conversation,index) in message.conversations" :key="index">
+          <message-item :message="conversation"/>
+        </div>
+        <!-- 分页 开始 -->
+        <div class="pagnation">
+          <span @click="jumpPage(1)">首页</span>
+          <span @click="jumpPage(message.current - 1)">上页</span>
+          <span @click="jumpPage(message.current + 1)">下页</span>
+          <span @click="jumpPage(message.page.to)">末页</span>
+        </div>
+        <!-- 分页结束 -->
+      </b-tab>
+      <b-tab title="点赞通知">
+        <div v-for="(n,index) in notice.likeNotice" :key="index">
+         <span> <router-link :to="/profile/+n.userId">{{n.user.username}}</router-link></span>点赞了你的
+          <span v-if="n.entityType==1">帖子</span>
+          <span v-else-if="n.entityType==2">评论</span>
+          <span><router-link :to="/postDetail/+n.postId">点击查看更多</router-link></span>
+        </div>
+      </b-tab>
+      <b-tab title="评论通知">
+        <div v-for="(n,index) in notice.commentNotice" :key="index">
+         <span> <router-link :to="/profile/+n.userId"> {{n.user.username}}</router-link></span>评论了你的帖子
+          <span><router-link :to="/postDetail/+n.postId">点击查看更多</router-link></span>
+        </div>
+      </b-tab>
+    </b-tabs>
+</div>
 </template>
 
 <script>
-import {getMessage} from "network/message.js";
+import {getMessage,getNotice} from "network/message.js";
 import MessageItem from 'components/MessageItem.vue';
 import SendMessage from 'components/SendMessage.vue';
 import Jheader from 'components/Jheader.vue';
@@ -41,6 +56,10 @@ import Jheader from 'components/Jheader.vue';
           current:1,
           limit:5,
           page:undefined
+        },
+        notice:{
+          likeNotice:[],
+          commentNotice:[]
         }
       }
     },
@@ -75,6 +94,14 @@ import Jheader from 'components/Jheader.vue';
     },
     created(){
       this.getMessage(this.message.current,this.message.limit);
+      getNotice("like").then(res=>{
+        // console.log(res.data)
+        this.notice.likeNotice = res.data.notices
+      })
+      getNotice("comment").then(res=>{
+        this.notice.commentNotice = res.data.notices
+        
+      })
     }
   }
 </script>

@@ -13,6 +13,7 @@
       <i class="zi zi_clock" zico="时钟"></i
       >&nbsp;{{ postsItem.post.createTime | calcTime }}
     </div>
+    <div class="top"  v-if="postsItem.post.type==1">置顶</div>
   </div>
 </template>
 
@@ -54,12 +55,25 @@ export default {
   border-radius: 50%;
 }
 .post-item {
+  position: relative;
   display: flex;
   height: 100px;
   border-bottom:1px solid rgba(52, 172, 224,.4) ;
   box-shadow: 0 5px 5px #70a1ff;
   background: #f1f2f6;
-
+}
+.post-item .top{
+  position: absolute;
+  right: 10px;
+  top:10px;
+  padding: 0 10px;
+  height: 40px;
+  border-radius: 18px;
+  background: red;
+  color: #fff;
+  font-size: 0.9em;
+  text-align: center;
+  line-height: 40px;
 }
 .title {
   width:620px;

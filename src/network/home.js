@@ -32,6 +32,11 @@ export function publish(title,content,postArea,files) {
     headers:{"Content-Type":"multipart/form-data"}
   })
 }
+export function getCarousel() {
+  return request({
+    url:"/admin/getCarousel"
+  })
+}
 
 // export function getHomeMultidata(){
 //   return request({

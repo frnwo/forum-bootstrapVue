@@ -100,8 +100,9 @@
         >
           <!-- 回复内容 -->
           <div class="content">
+            <span style="color:#FC427B;margin-right:5px">
             {{ reply.replyUser.username
-            }}<span v-if="reply.targetUser">
+            }}</span><span v-if="reply.targetUser">
               回复 {{ reply.targetUser.username }}</span
             >:{{ reply.reply.content }}
           </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="jh-form">
     <jheader/>
-
+    <div style="text-align:center;font-size:36px"><b class="text-danger">注册</b></div>
     <!-- 正在注册提示 -->
     <b-alert show v-show="isLoading"
       ><b-spinner variant="primary" label="Spinning"></b-spinner
@@ -120,7 +120,9 @@ import { register } from "network/register";
               this.isLoading = false
               // 显示注册成功文本
               this.success = true
-              this.$router.push("/login")
+              setTimeout(()=>{
+                this.$router.push("/login")
+              },2000)
           } else {
             //隐藏正在注册的文本
               this.isLoading = false

@@ -2,6 +2,8 @@
   <div id="post-body">
     <jheader/>
     <div class="post-area"><post-area-select @postAreaClick="postAreaClick"/></div>
+    <!-- 轮播图 -->
+    <carousel class="carousel"/>
     <div class="posts">
       <post-list :posts="posts.list" @titleClick="titleClick" />
       <!-- 分页 开始 -->
@@ -30,7 +32,8 @@ import Jheader from "components/Jheader.vue";
 import PostAreaSelect from "components/PostAreaSelect.vue";
 import PostList from "components/PostList.vue";
 
-import { getDiscussPosts } from "network/home";
+import { getDiscussPosts} from "network/home";
+import Carousel from 'components/Carousel.vue';
 
 export default {
   name: "Home",
@@ -38,6 +41,7 @@ export default {
     Jheader,
     PostAreaSelect,
     PostList,
+    Carousel,
   },
   data() {
     return {
@@ -117,8 +121,14 @@ export default {
 }
 .post-area {
   position: fixed;
-  left: 200px;
-  top: 150px;
+  left: 300px;
+  top: 450px;
+}
+.carousel{
+  position: fixed;
+  z-index: 99;
+  left: 100px;
+  top:120px
 }
 .posts {
   width: 75%;
